@@ -1,7 +1,4 @@
-import Column from "@/components/Column";
-import { createClient } from "../utils/supabase/server";
-import UL from "@/components/UL";
-import LI from "@/components/LI";
+import { createSimpleClient } from "../utils/supabase/server";
 
 type Score = {
     id: number;
@@ -24,7 +21,7 @@ type Player = {
 };
 
 export default async function Page() {
-    const supabase = await createClient();
+    const supabase = await createSimpleClient();
 
     let scores: Score[] = [];
     let players: Player[] = [];
@@ -79,14 +76,24 @@ export default async function Page() {
 
     return (
         <div className="m-4 justify-center">
-            <div className="flex justify-center">Players Score List</div>
+            <div className="flex m-2 justify-center text-3xl font-bold">
+                Players Score List
+            </div>
+            <div className="flex justify-center">
+                <a href="/add_player" className="rounded-xl p-3 transition-transform duration-300 hover:bg-gray-800 ">Add Player</a>
+                <a href="/add_score" className="rounded-xl p-3 transition-transform duration-300 hover:bg-gray-800 ">Add Score</a>
+            </div>
+
             <div className="m-6 flex flex-row">
                 <div className="flex-1 text-center font-bold">Date</div>
                 <div className="flex-1 text-center font-bold">Score</div>
                 <div className="flex-1 text-center font-bold">Player</div>
             </div>
             {formattedScores.map((score) => (
-                <div className="mx-6 flex flex-row transition-transform duration-300 hover:scale-105 hover:bg-gray-800">
+                <div
+                    key={score.id}
+                    className="mx-6 flex flex-row transition-transform duration-300 hover:scale-105 hover:bg-gray-800"
+                >
                     <div className="flex-1 text-center">{score.created_at}</div>
                     <div className="flex-1 text-center">{score.score}</div>
                     <div className="flex-1 text-center">
