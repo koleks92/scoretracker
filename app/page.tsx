@@ -80,32 +80,20 @@ export default async function Page() {
     return (
         <div className="m-4 justify-center">
             <div className="flex justify-center">Players Score List</div>
-            <div className="m-6 flex flex-column justify-evenly">
-                <Column>
-                    <UL>
-                        <LI bold>Date</LI>
-                        {formattedScores.map((score) => (
-                            <LI key={score.id}>{score.created_at}</LI>
-                        ))}
-                    </UL>
-                </Column>
-                <Column>
-                    <UL>
-                        <LI bold>Score</LI>
-                        {formattedScores.map((score) => (
-                            <LI key={score.id}>{score.score}</LI>
-                        ))}
-                    </UL>
-                </Column>
-                <Column>
-                    <UL>
-                        <LI bold>Player</LI>
-                        {formattedScores.map((score) => (
-                            <LI key={score.id}>{score.player_name}</LI>
-                        ))}
-                    </UL>{" "}
-                </Column>
+            <div className="m-6 flex flex-row">
+                <div className="flex-1 text-center font-bold">Date</div>
+                <div className="flex-1 text-center font-bold">Score</div>
+                <div className="flex-1 text-center font-bold">Player</div>
             </div>
+            {formattedScores.map((score) => (
+                <div className="mx-6 flex flex-row transition-transform duration-300 hover:scale-105 hover:bg-gray-800">
+                    <div className="flex-1 text-center">{score.created_at}</div>
+                    <div className="flex-1 text-center">{score.score}</div>
+                    <div className="flex-1 text-center">
+                        {score.player_name}
+                    </div>
+                </div>
+            ))}
         </div>
     );
 }
