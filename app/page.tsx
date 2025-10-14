@@ -1,3 +1,4 @@
+import Column from "@/components/Column";
 import { createClient } from "../utils/supabase/server";
 
 type Score = {
@@ -72,21 +73,42 @@ export default async function Page() {
     await getScores();
     await getPlayers();
 
-    formatScores(scores, players);
+    const formattedScores: FilteredScore[] = formatScores(scores, players);
 
     return (
         <div className="m-4 justify-center">
             <div className="flex justify-center">Players Score List</div>
-            <div className="m-6 flex flex-column justify-evenly">
-                <div className="mx-6">
-                    <b>Date</b>
-                </div>
-                <div>
-                    <b>Score</b>
-                </div>
-                <div>
-                    <b>Player</b>
-                </div>
+            <div className="m-6 flex flex-column justify-evenly border">
+                <Column>
+                    <ul>
+                        <li className="">
+                            <b>Date</b>
+                        </li>
+                        {formattedScores.map((score) => (
+                            <li>{score.created_at}</li>
+                        ))}
+                    </ul>
+                </Column>
+                <Column>
+                    <ul>
+                        <li>
+                            <b>Score</b>
+                        </li>
+                        {formattedScores.map((score) => (
+                            <li>{score.score}</li>
+                        ))}
+                    </ul>
+                </Column>
+                <Column>
+                    <ul>
+                        <li>
+                            <b>Player</b>
+                        </li>
+                        {formattedScores.map((score) => (
+                            <li>{score.player_name}</li>
+                        ))}
+                    </ul>
+                </Column>
             </div>
         </div>
     );
