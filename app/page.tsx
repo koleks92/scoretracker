@@ -80,8 +80,8 @@ export default async function Page() {
                 Players Score List
             </div>
             <div className="flex justify-center">
-                <a href="/add_player" className="rounded-xl p-3 transition-transform duration-300 hover:bg-gray-800 ">Add Player</a>
-                <a href="/add_score" className="rounded-xl p-3 transition-transform duration-300 hover:bg-gray-800 ">Add Score</a>
+                <a href="/add_player" className="mx-1 rounded-xl p-3 transition-transform duration-300 hover:bg-gray-800 ">Add Player</a>
+                <a href="/add_score" className="mx-1 rounded-xl p-3 transition-transform duration-300 hover:bg-gray-800 ">Add Score</a>
             </div>
 
             <div className="m-6 flex flex-row">
