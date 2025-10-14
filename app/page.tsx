@@ -1,5 +1,7 @@
 import Column from "@/components/Column";
 import { createClient } from "../utils/supabase/server";
+import UL from "@/components/UL";
+import LI from "@/components/LI";
 
 type Score = {
     id: number;
@@ -78,36 +80,30 @@ export default async function Page() {
     return (
         <div className="m-4 justify-center">
             <div className="flex justify-center">Players Score List</div>
-            <div className="m-6 flex flex-column justify-evenly border">
+            <div className="m-6 flex flex-column justify-evenly">
                 <Column>
-                    <ul>
-                        <li className="">
-                            <b>Date</b>
-                        </li>
+                    <UL>
+                        <LI bold>Date</LI>
                         {formattedScores.map((score) => (
-                            <li>{score.created_at}</li>
+                            <LI key={score.id}>{score.created_at}</LI>
                         ))}
-                    </ul>
+                    </UL>
                 </Column>
                 <Column>
-                    <ul>
-                        <li>
-                            <b>Score</b>
-                        </li>
+                    <UL>
+                        <LI bold>Score</LI>
                         {formattedScores.map((score) => (
-                            <li>{score.score}</li>
+                            <LI key={score.id}>{score.score}</LI>
                         ))}
-                    </ul>
+                    </UL>
                 </Column>
                 <Column>
-                    <ul>
-                        <li>
-                            <b>Player</b>
-                        </li>
+                    <UL>
+                        <LI bold>Player</LI>
                         {formattedScores.map((score) => (
-                            <li>{score.player_name}</li>
+                            <LI key={score.id}>{score.player_name}</LI>
                         ))}
-                    </ul>
+                    </UL>{" "}
                 </Column>
             </div>
         </div>
