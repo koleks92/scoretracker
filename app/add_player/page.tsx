@@ -1,11 +1,11 @@
 "use client";
 import { useState } from "react";
-import { createSimpleClient } from "@/utils/supabase/server";
+import { createClient } from "@/utils/supabase/client";
 
 export default function AddPlayer() {
     const [playerName, setPlayerName] = useState("");
     const [message, setMessage] = useState("");
-    const supabase = createSimpleClient();
+    const supabase = createClient();
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
