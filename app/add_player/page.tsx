@@ -3,7 +3,7 @@ import { useState } from "react";
 import { createClient } from "@/utils/supabase/client";
 
 export default function AddPlayer() {
-    const [playerName, setPlayerName] = useState("");
+    const [playerName, setPlayerName] = useState<string | null>(null);
     const [message, setMessage] = useState("");
     const supabase = createClient();
 
@@ -20,18 +20,22 @@ export default function AddPlayer() {
             return;
         }
 
-        const { error } = await supabase
-            .from("Players")
-            .insert({ player_name: playerName });
+        if (playerName) {
+            const { error } = await supabase
+                .from("Players")
+                .insert({ player_name: playerName });
 
-        if (error) {
-            console.error("Error addig player: ", error);
-            setMessage("Failed to add player.");
+            if (error) {
+                console.error("Error addig player: ", error);
+                setMessage("Failed to add player.");
+            } else {
+                setMessage(`${playerName} added successfully!`);
+            }
+
+            setPlayerName("");
         } else {
-            setMessage(`${playerName} added successfully!`);
+            setMessage("Missing player name!")
         }
-
-        setPlayerName("");
     };
 
     return (
