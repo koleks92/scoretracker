@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { createClient } from "@/utils/supabase/client";
 import Selector from "@/components/Selector";
+import ScoreSelector from "@/components/ScoreSelector";
 
 type Option = {
     value: number;
@@ -10,7 +11,7 @@ type Option = {
 };
 
 export default function AddScore() {
-    const [score, setScore] = useState<number>(0);
+    const [selectedScore, setSelectedScore] = useState<Option | null>(null);
     const [message, setMessage] = useState<string>("");
     const [selectedPlayer, setSelectedPlayer] = useState<Option | null>(null);
 
@@ -65,7 +66,9 @@ export default function AddScore() {
                     className="border p-6 rounded-xl border-4"
                 >
                     <div className="my-2 text-center">Select score</div>
-                    
+                    <ScoreSelector value={selectedScore}                         
+                        onChange={(option) => setSelectedScore(option)}
+/>
                     <div className="my-2 text-center">Select player</div>
                     <Selector
                         value={selectedPlayer}
