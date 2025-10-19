@@ -24,8 +24,12 @@ export default function AddPlayer() {
             .from("Players")
             .insert({ player_name: playerName });
 
-        if (error) setMessage("Failed to add player.");
-        else setMessage(`${playerName} added successfully!`);
+        if (error) {
+            console.error("Error addig player: ", error);
+            setMessage("Failed to add player.");
+        } else {
+            setMessage(`${playerName} added successfully!`);
+        }
 
         setPlayerName("");
     };
@@ -40,7 +44,10 @@ export default function AddPlayer() {
                 <a href="/">Go Back</a>
             </div>
             <div className="flex my-20 flex-col items-center">
-                <form onSubmit={handleSubmit} className="border p-6 rounded-xl border-4">
+                <form
+                    onSubmit={handleSubmit}
+                    className="border p-6 rounded-xl border-4"
+                >
                     <div className="my-2 text-center">
                         Enter new player name
                     </div>
