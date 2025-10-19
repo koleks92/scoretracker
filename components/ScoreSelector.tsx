@@ -11,16 +11,14 @@ type SelectProp = {
 };
 
 function ScoreSelector({ value, onChange }: SelectProp) {
-    const [selected, setSelected] = useState<Option>({value: 0, label: '0'});
+    const [selected, setSelected] = useState<Option | null>(null);
 
     const handleSelect = (option: Option) => {
-        console.log(option);
         setSelected(option);
         onChange(option);
     };
 
     const options: Option[] = [
-        { value: 0, label: "0" },
         { value: 1, label: "1" },
         { value: 2, label: "2" },
         { value: 3, label: "3" },
