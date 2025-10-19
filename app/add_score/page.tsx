@@ -1,7 +1,55 @@
-import { createSimpleClient } from "@/utils/supabase/server";
+"use client";
+
+import { useEffect, useState } from "react";
+import { createClient } from "@/utils/supabase/client";
+import Selector from "@/components/Selector";
+
+type Option = {
+    value: number;
+    label: string;
+};
 
 export default function AddScore() {
-    const supabase = createSimpleClient();
+    const [score, setScore] = useState<number>(0);
+    const [message, setMessage] = useState<string>("");
+    const [selectedPlayer, setSelectedPlayer] = useState<Option | null>(null);
+
+    const [playersList, setPlayersList] = useState<Option[]>([]);
+
+    const supabase = createClient();
+
+
+    useEffect(() => {
+        const getPlayers = async () => {
+            const { data, error } = await supabase.from("Players").select("*");
+
+            if (error) {
+                console.error("Error fetching players:", error);
+            }
+
+            if (data) {
+                let formattedData: Option[] = [];
+                data.forEach((data) => {
+                    formattedData.push({
+                        value: data.id,
+                        label: data.player_name,
+                    });
+                });
+                setPlayersList(formattedData);
+            }
+        };
+
+        getPlayers();
+    }, []);
+
+    const handleSubmit = async (e: React.FormEvent): Promise<void> => {
+        e.preventDefault();
+
+        // Reset the message
+        setMessage("");
+
+        // TODO
+    };
 
     return (
         <div className="m-4 justify-center align-center">
@@ -11,7 +59,32 @@ export default function AddScore() {
             <div className="flex justify-center">
                 <a href="/">Go Back</a>
             </div>
+            <div className="flex my-20 flex-col items-center">
+                <form
+                    onSubmit={handleSubmit}
+                    className="border p-6 rounded-xl border-4"
+                >
+                    <div className="my-2 text-center">Select score</div>
+                    
+                    <div className="my-2 text-center">Select player</div>
+                    <Selector
+                        value={selectedPlayer}
+                        options={playersList}
+                        onChange={(option) => setSelectedPlayer(option)}
+                    />
+                    
 
+                    <div className="flex justify-center">
+                        <button
+                            type="submit"
+                            className="text-3xl p-3 rounded-xl transition-transform duration-300 hover:bg-gray-800"
+                        >
+                            Add new score
+                        </button>
+                    </div>
+                    {message && <div className="text-center">{message}</div>}
+                </form>
+            </div>
         </div>
     );
 }
