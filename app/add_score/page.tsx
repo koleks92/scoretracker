@@ -19,7 +19,6 @@ export default function AddScore() {
 
     const supabase = createClient();
 
-
     useEffect(() => {
         const getPlayers = async () => {
             const { data, error } = await supabase.from("Players").select("*");
@@ -49,7 +48,29 @@ export default function AddScore() {
         // Reset the message
         setMessage("");
 
-        // TODO
+        if (selectedPlayer && selectedScore) {
+            const { data, error } = await supabase.from("Scores").insert({
+                score: selectedScore?.value,
+                player_id: selectedPlayer?.value,
+            });
+
+            if (error) {
+                console.error("Error while puting data: ", error)
+                setMessage("There was an error. Try again!")
+            } 
+
+            if (data) {
+                setMessage("Score added :)")
+            }
+        } else {
+            if (selectedPlayer) {
+                setMessage("Missing score!")
+            } else if (selectedScore) {
+                setMessage("Missing player!")
+            } else {
+                setMessage("Missing score and player!")
+            }
+        }
     };
 
     return (
@@ -66,16 +87,20 @@ export default function AddScore() {
                     className="border p-6 rounded-xl border-4"
                 >
                     <div className="my-2 text-center">Select score</div>
-                    <ScoreSelector value={selectedScore}                         
-                        onChange={(option) => setSelectedScore(option)}
-/>
+                    <div className="flex justify-center">
+                        <ScoreSelector
+                            value={selectedScore}
+                            onChange={(option) => setSelectedScore(option)}
+                        />
+                    </div>
                     <div className="my-2 text-center">Select player</div>
-                    <Selector
-                        value={selectedPlayer}
-                        options={playersList}
-                        onChange={(option) => setSelectedPlayer(option)}
-                    />
-                    
+                    <div className="flex justify-center">
+                        <Selector
+                            value={selectedPlayer}
+                            options={playersList}
+                            onChange={(option) => setSelectedPlayer(option)}
+                        />
+                    </div>
 
                     <div className="flex justify-center">
                         <button
