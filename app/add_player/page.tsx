@@ -3,24 +3,28 @@ import { useState } from "react";
 import { createClient } from "@/utils/supabase/client";
 
 export default function AddPlayer() {
-    const [playerName, setPlayerName] = useState<string | null>(null);
+    const [playerName, setPlayerName] = useState<string>("");
     const [message, setMessage] = useState("");
     const supabase = createClient();
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
 
-        const { data: existing } = await supabase
-            .from("Players")
-            .select("*")
-            .eq("player_name", playerName);
+        setMessage("");
 
-        if (existing && existing.length > 0) {
-            setMessage(`${playerName} already exists!`);
-            return;
-        }
+        if (playerName != "") {
+            const { data: existing } = await supabase
+                .from("Players")
+                .select("*")
+                .eq("player_name", playerName);
 
-        if (playerName) {
+            console.log(playerName);
+
+            if (existing && existing.length > 0) {
+                setMessage(`${playerName} already exists!`);
+                setPlayerName("")
+                return;
+            }
             const { error } = await supabase
                 .from("Players")
                 .insert({ player_name: playerName });
@@ -34,7 +38,7 @@ export default function AddPlayer() {
 
             setPlayerName("");
         } else {
-            setMessage("Missing player name!")
+            setMessage("Missing player name!");
         }
     };
 
