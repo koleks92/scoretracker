@@ -55,20 +55,19 @@ export default function AddScore() {
             });
 
             if (error) {
-                console.error("Error while puting data: ", error)
-                setMessage("There was an error. Try again!")
-            } 
-
-            if (data) {
-                setMessage("Score added :)")
+                console.error("Error while puting data: ", error);
+                setMessage("There was an error. Try again!");
+                return;
             }
+
+            setMessage("Score added :)");
         } else {
             if (selectedPlayer) {
-                setMessage("Missing score!")
+                setMessage("Missing score!");
             } else if (selectedScore) {
-                setMessage("Missing player!")
+                setMessage("Missing player!");
             } else {
-                setMessage("Missing score and player!")
+                setMessage("Missing score and player!");
             }
         }
     };
